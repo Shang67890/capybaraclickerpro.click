@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capybara Clicker Pro - Free Online Clicker Game | capybaraclickerpro.click</title>
+    <meta name="description" content="Play Capybara Clicker Pro for free! Collect adorable capybaras, upgrade your habitat, and become the ultimate capybara collector in this addictive idle clicker game.">
+    <meta name="keywords" content="Capybara Clicker Pro, capybara game, clicker game, idle game, free online game, capybara simulator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://capybaraclickerpro.click/">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'capy-green': '#4CAF50',
+                        'capy-blue': '#2196F3',
+                        'capy-brown': '#8D6E63',
+                        'capy-light': '#E8F5E9',
+                        'capy-dark': '#1B5E20',
+                        'capy-yellow': '#FFEB3B'
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 4s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fbfa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .capy-font {
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        .game-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+            border: 4px solid #4CAF50;
+        }
+        
+        .game-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 2px solid #e0f7fa;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+        
+        .capy-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+            font-weight: 600;
+        }
+        
+        .capy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        .capy-nav {
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        .capy-nav::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #4CAF50;
+            transition: width 0.3s ease;
+        }
+        
+        .capy-nav:hover::after {
+            width: 100%;
+        }
+        
+        .capy-badge {
+            animation: pulse-slow 2s infinite;
+        }
+        
+        .capy-animation {
+            animation: bounce-slow 3s infinite;
+        }
+        
+        .water-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%234CAF50" fill-opacity="0.2" d="M0,128L48,117.3C96,107,192,85,288,101.3C384,117,480,171,576,181.3C672,192,768,160,864,128C960,96,1056,64,1152,74.7C1248,85,1344,139,1392,165.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+        
+        .grass-pattern {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23E8F5E9" width="100" height="100"/><path fill="%234CAF50" d="M0,50 Q25,30 50,50 T100,50 L100,100 L0,100 Z" opacity="0.1"/></svg>');
+        }
+        
+        .counter-bubble {
+            background: linear-gradient(135deg, #FFEB3B 0%, #FBC02D 100%);
+            box-shadow: 0 4px 10px rgba(251, 192, 45, 0.3);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating-capy {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                border-radius: 14px;
+            }
+            
+            .water-wave {
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body class="grass-pattern">
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-capy-green to-green-500 flex items-center justify-center mr-3">
+                        <i class="fas fa-paw text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-capy-dark capy-font">Capybara Clicker Pro</h1>
+                        <p class="text-xs text-gray-500">World's Cutest Clicker Game</p>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#game" class="capy-nav text-capy-dark font-medium">Play Game</a>
+                    <a href="#features" class="capy-nav text-capy-dark font-medium">Features</a>
+                    <a href="#upgrades" class="capy-nav text-capy-dark font-medium">Upgrades</a>
+                    <a href="#tips" class="capy-nav text-capy-dark font-medium">Tips</a>
+                </nav>
+                
+                <button class="md:hidden text-capy-dark">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-8 md:py-12 relative overflow-hidden">
+        <div class="water-wave"></div>
+        <div class="container mx-auto px-4 max-w-6xl relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="w-full md:w-1/2 text-center md:text-left">
+                    <div class="mb-2">
+                        <span class="capy-badge bg-capy-yellow text-capy-dark py-1 px-4 rounded-full font-bold">NEW</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-capy-dark capy-font">Collect Adorable Capybaras!</h1>
+                    <p class="text-xl text-gray-600 mb-6">
+                        Click your way to the ultimate capybara sanctuary in this addictive idle clicker game!
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                        <div class="counter-bubble px-6 py-3 rounded-full font-bold">
+                            <i class="fas fa-users mr-2"></i> 500K+ Players
+                        </div>
+                        <div class="bg-white px-6 py-3 rounded-full font-bold shadow">
+                            <i class="fas fa-star text-yellow-400 mr-2"></i> 4.8/5 Rating
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <a href="#game" class="capy-btn text-white py-4 px-8 text-lg inline-block">
+                            <i class="fas fa-play mr-2"></i> Play Free Now
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-1/2 mt-8 md:mt-0 relative">
+                    <div class="relative">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='100' cy='100' r='80' fill='%234CAF50' opacity='0.2'/><circle cx='100' cy='100' r='70' fill='%238BC34A' opacity='0.3'/></svg>" class="w-full h-auto rounded-full mx-auto capy-animation" alt="Capybara">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='80' cy='80' r='40' fill='%238D6E63'/><circle cx='120' cy='80' r='40' fill='%238D6E63'/><circle cx='100' cy='120' r='60' fill='%238D6E63'/><circle cx='70' cy='70' r='8' fill='white'/><circle cx='130' cy='70' r='8' fill='white'/><circle cx='70' cy='70' r='4' fill='black'/><circle cx='130' cy='70' r='4' fill='black'/><path d='M90 140 Q100 160 110 140' stroke='black' stroke-width='3' fill='none'/></svg>" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 floating-capy" alt="Capybara">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="game" class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-capy-dark capy-font">Play Capybara Clicker Pro</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Start your capybara collection now! Click to earn capy-coins and grow your sanctuary.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-capy-green to-capy-blue mx-auto rounded-full mt-4"></div>
+            </div>
+            
+            <div class="game-container mb-10">
+                <iframe src="https://www.onlinegames.io/games/2023/q2/capybara-clicker-pro/index.html" 
+                        allow="autoplay; fullscreen" 
+                        allowfullscreen 
+                        title="Capybara Clicker Pro Online Game"></iframe>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6 mt-12">
+                <div class="feature-card p-6 text-center">
+                    <div class="w-16 h-16 rounded-full bg-capy-light flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-mouse-pointer text-3xl text-capy-green"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-capy-dark">Easy to Play</h3>
+                    <p class="text-gray-600">
+                        Just click to collect capybaras! Simple controls make it fun for everyone.
+                    </p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="w-16 h-16 rounded-full bg-capy-light flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sync-alt text-3xl text-capy-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-capy-dark">Idle Earnings</h3>
+                    <p class="text-gray-600">
+                        Earn coins even when you're offline. Your capybaras keep working for you!
+                    </p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="w-16 h-16 rounded-full bg-capy-light flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-trophy text-3xl text-capy-yellow"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-capy-dark">Achievements</h3>
+                    <p class="text-gray-600">
+                        Unlock special rewards and rare capybaras as you progress through the game.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-capy-light">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-capy-dark capy-font">Game Features</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Discover what makes Capybara Clicker Pro the most adorable clicker game!
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-capy-green to-capy-blue mx-auto rounded-full mt-4"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="feature-card p-5">
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                                <i class="fas fa-kiwi-bird text-capy-green text-2xl"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-lg text-capy-dark">100+ Capybaras</h4>
+                            <p class="text-gray-600">Collect common, rare and legendary capybaras</p>
+                        </div>
+                        <div class="feature-card p-5">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                                <i class="fas fa-home text-capy-blue text-2xl"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-lg text-capy-dark">Habitat Upgrades</h4>
+                            <p class="text-gray-600">Expand and decorate your capybara sanctuary</p>
+                        </div>
+                        <div class="feature-card p-5">
+                            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                                <i class="fas fa-hat-cowboy text-capy-yellow text-2xl"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-lg text-capy-dark">Cute Accessories</h4>
+                            <p class="text-gray-600">Dress up your capybaras with hats, glasses & more</p>
+                        </div>
+                        <div class="feature-card p-5">
+                            <div class="w-12 h-12 rounded-full bg-brown-100 flex items-center justify-center mb-4">
+                                <i class="fas fa-medal text-capy-brown text-2xl"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-lg text-capy-dark">Daily Rewards</h4>
+                            <p class="text-gray-600">Log in daily for special bonuses and rare items</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 md:order-2">
+                    <h3 class="text-2xl font-semibold mb-4 text-capy-dark">Endless Cuteness & Progression</h3>
+                    <p class="text-lg mb-4 text-gray-700">
+                        Capybara Clicker Pro offers an incredibly satisfying gameplay loop with constant rewards and unlocks. Start with just one capybara and watch your sanctuary grow!
+                    </p>
+                    <p class="mb-4 text-gray-700">
+                        As you progress, you'll unlock special abilities, automated helpers, and exotic capybara breeds. Each upgrade makes your collection more efficient and even cuter!
+                    </p>
+                    <div class="mt-6">
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 rounded-full bg-capy-green flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span class="font-medium">Family-friendly gameplay</span>
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 rounded-full bg-capy-green flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span class="font-medium">No ads or pay-to-win mechanics</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-capy-green flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span class="font-medium">Regular content updates with new features</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upgrades Section -->
+    <section id="upgrades" class="py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-capy-dark capy-font">Upgrades & Boosts</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Enhance your capybara collection with these powerful upgrades
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-capy-green to-capy-blue mx-auto rounded-full mt-4"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card p-8 text-center border-t-4 border-capy-green">
+                    <div class="text-capy-green text-5xl mb-5">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-capy-dark">Capybara Helpers</h3>
+                    <p class="text-gray-600 mb-6">
+                        Hire capybara assistants to automatically collect coins for you.
+                    </p>
+                    <div class="text-capy-green font-bold text-xl">
+                        +5 Coins/Sec
+                    </div>
+                </div>
+                
+                <div class="feature-card p-8 text-center border-t-4 border-capy-blue">
+                    <div class="text-capy-blue text-5xl mb-5">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-capy-dark">Golden Clicker</h3>
+                    <p class="text-gray-600 mb-6">
+                        Upgrade your clicker to earn 10x more coins per click.
+                    </p>
+                    <div class="text-capy-blue font-bold text-xl">
+                        10x Click Value
+                    </div>
+                </div>
+                
+                <div class="feature-card p-8 text-center border-t-4 border-capy-yellow">
+                    <div class="text-capy-yellow text-5xl mb-5">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-capy-dark">Delivery System</h3>
+                    <p class="text-gray-600 mb-6">
+                        Automatically attract new capybaras to your sanctuary.
+                    </p>
+                    <div class="text-capy-yellow font-bold text-xl">
+                        +1 Capybara/Min
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section id="tips" class="py-16 bg-gradient-to-br from-capy-light to-white">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-capy-dark capy-font">Pro Player Tips</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Maximize your capybara collection with these expert strategies
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-capy-green to-capy-blue mx-auto rounded-full mt-4"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div>
+                    <div class="bg-white rounded-xl p-6 shadow-lg mb-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-capy-green flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-white font-bold text-xl">1</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2 text-capy-dark">Focus on Automation First</h3>
+                                <p class="text-gray-600">
+                                    Invest in helpers early. They'll generate coins while you're away, accelerating your progress.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg mb-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-capy-blue flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-white font-bold text-xl">2</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2 text-capy-dark">Balance Upgrades</h3>
+                                <p class="text-gray-600">
+                                    Don't just upgrade one thing. Balance between click power, helpers, and habitat upgrades.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-capy-yellow flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-white font-bold text-xl">3</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2 text-capy-dark">Check Daily Rewards</h3>
+                                <p class="text-gray-600">
+                                    Log in daily for special bonuses. The 7-day streak reward gives rare capybaras!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="inline-block relative">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='100' cy='100' r='90' fill='%234CAF50' opacity='0.1'/><rect x='50' y='50' width='100' height='100' rx='20' fill='%238BC34A' opacity='0.2'/></svg>" class="w-full max-w-md mx-auto" alt="Capybara Habitat">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='80' cy='80' r='30' fill='%238D6E63'/><circle cx='120' cy='80' r='30' fill='%238D6E63'/><circle cx='100' cy='120' r='40' fill='%238D6E63'/><circle cx='70' cy='70' r='6' fill='white'/><circle cx='130' cy='70' r='6' fill='white'/><circle cx='70' cy='70' r='3' fill='black'/><circle cx='130' cy='70' r='3' fill='black'/><path d='M90 140 Q100 160 110 140' stroke='black' stroke-width='2' fill='none'/></svg>" class="absolute top-20 left-20 w-16 h-16 floating-capy" alt="Capybara">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='80' cy='80' r='30' fill='%238D6E63'/><circle cx='120' cy='80' r='30' fill='%238D6E63'/><circle cx='100' cy='120' r='40' fill='%238D6E63'/><circle cx='70' cy='70' r='6' fill='white'/><circle cx='130' cy='70' r='6' fill='white'/><circle cx='70' cy='70' r='3' fill='black'/><circle cx='130' cy='70' r='3' fill='black'/><path d='M90 140 Q100 160 110 140' stroke='black' stroke-width='2' fill='none'/></svg>" class="absolute bottom-20 right-20 w-20 h-20 floating-capy" style="animation-delay: 0.5s;" alt="Capybara">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='80' cy='80' r='30' fill='%238D6E63'/><circle cx='120' cy='80' r='30' fill='%238D6E63'/><circle cx='100' cy='120' r='40' fill='%238D6E63'/><circle cx='70' cy='70' r='6' fill='white'/><circle cx='130' cy='70' r='6' fill='white'/><circle cx='70' cy='70' r='3' fill='black'/><circle cx='130' cy='70' r='3' fill='black'/><path d='M90 140 Q100 160 110 140' stroke='black' stroke-width='2' fill='none'/></svg>" class="absolute top-40 right-40 w-12 h-12 floating-capy" style="animation-delay: 1s;" alt="Capybara">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-capy-dark text-white py-12">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-capy-green to-green-500 flex items-center justify-center mr-3">
+                            <i class="fas fa-paw text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold capy-font">Capybara Clicker Pro</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        The cutest idle clicker game on the internet. Collect capybaras, build your sanctuary, and relax!
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Game Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#game" class="text-gray-400 hover:text-white transition">Play Game</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition">Features</a></li>
+                        <li><a href="#upgrades" class="text-gray-400 hover:text-white transition">Upgrades</a></li>
+                        <li><a href="#tips" class="text-gray-400 hover:text-white transition">Pro Tips</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Other Games</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Hamster Clicker</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Penguin Paradise</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sloth Simulator</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Red Panda Clicker</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>© 2023 capybaraclickerpro.click. All rights reserved.</p>
+                <p class="mt-2">Capybara Clicker Pro is a free online game. This is not an official product.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-capy-green text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0');
+                backToTopButton.classList.add('opacity-100');
+            } else {
+                backToTopButton.classList.remove('opacity-100');
+                backToTopButton.classList.add('opacity-0');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
